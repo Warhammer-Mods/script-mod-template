@@ -42,7 +42,7 @@ Mod description. Detailed, but not too elaborate.
 
 ---
 
-## Compatilibity
+## Compatibility
 
 - Specify relevant compatibility details with other major mods.
 - Known incompatibilities also listed here.
