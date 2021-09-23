@@ -2,12 +2,28 @@ name: Lua lint
 
 on: 
   push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'hotfix/**'
+      - 'bugfix/**'
+      - 'support/**'
+      - 'update/**'
     paths:
       - 'script/**'
       - '.luacheckrc'
       - '.vscode/**'
       - '.github/workflows/**'
   pull_request:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'hotfix/**'
+      - 'bugfix/**'
+      - 'support/**'
+      - 'update/**'
     paths:
       - 'script/**'
       - '.luacheckrc'
@@ -18,16 +34,16 @@ on:
 env:
   FILES_TO_CHECK: >-
     script
+  GIT_AUTHOR_NAME: "github-actions[bot]"
+  GIT_AUTHOR_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+  GIT_COMMITTER_NAME: "github-actions[bot]"
+  GIT_COMMITTER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
   VENDOR_PATH: .vscode/autocomplete
   LUA_VERSION: "5.1"
   LUAROCKS_VERSION: "3.7.0"
   LUACHECK_CONFIG: .luacheckrc
   CUSTOM_LUA_GLOBALS: >-
-    ardm
-  GIT_AUTHOR_NAME: "github-actions[bot]"
-  GIT_AUTHOR_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
-  GIT_COMMITTER_NAME: "github-actions[bot]"
-  GIT_COMMITTER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+    
 
 jobs:
 
@@ -109,7 +125,6 @@ jobs:
       id: luacheck
       shell: bash --noprofile --norc {0}
       run: |
-        mkdir output
         echo "::add-matcher::.github/luacheck-plain.json"
         luacheck ${{ env.FILES_TO_CHECK }} \
           --formatter plain \
@@ -176,7 +191,8 @@ jobs:
         token: ${{ secrets.BOT_TOKEN }}
         committer: ${{ format( '{0} <{1}>', env.GIT_COMMITTER_NAME, env.GIT_COMMITTER_EMAIL) }}
         author: ${{ format( '{0} <{1}>', env.GIT_AUTHOR_NAME, env.GIT_AUTHOR_EMAIL) }}
-        branch: bot/update_luacheck
+        branch: bot/autocomplete-patch
+        branch-suffix: short-commit-hash
         delete-branch: true
         signoff: false
         title: "[Luacheck] Update config and autocomplete"
