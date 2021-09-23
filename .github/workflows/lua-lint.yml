@@ -129,7 +129,7 @@ jobs:
         luacheck ${{ env.FILES_TO_CHECK }} \
           --formatter plain \
           --codes --ranges
-        exitcode=${PIPESTATUS[0]}
+        exitcode=$?
         echo "::remove-matcher owner=luacheck-plain_error::"
         echo "::remove-matcher owner=luacheck-plain_warning::"
         if [ "$exitcode" -gt 1 ]; then
