@@ -17,6 +17,7 @@
 		"editor.tabCompletion": "onlySnippets",
 		"editor.wordBasedSuggestions": false,
 		"editor.parameterHints.enabled": true,
+                "files.eol": "\n",
 		"workbench.tree.indent": 20,
 		"Lua.telemetry.enable": false,
 		"Lua.runtime.version": "Lua 5.1",
