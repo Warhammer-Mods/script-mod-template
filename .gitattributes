@@ -1,2 +1,6 @@
+# Disable git line endings management
+* -text
+
+# Instruct GitHub to skip language analysis and diffing for these files
 /.vscode/** linguist-vendored
 /.luacheckrc linguist-generated=true

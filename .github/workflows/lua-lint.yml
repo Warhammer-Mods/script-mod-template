@@ -24,11 +24,6 @@ on:
       - 'bugfix/**'
       - 'support/**'
       - 'update/**'
-    paths:
-      - 'script/**'
-      - '.luacheckrc'
-      - '.vscode/**'
-      - '.github/workflows/**'
   workflow_dispatch:
 
 env:
@@ -50,35 +45,13 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     outputs:
-      clean: ${{ steps.lua-globals.outputs.clean }}
+      clean: ${{ steps.changes.outputs.clean }}
 
     steps:
     - uses: actions/checkout@v2
       with:
         persist-credentials: false
         fetch-depth: 0
-
-    - name: Cache lua environment
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-lua
-      with:
-        path: |
-          .install
-          .lua
-        key: ${{ runner.os }}-lua-${{ env.LUA_VERSION }}
-        restore-keys: |
-          ${{ runner.os }}-lua-
-
-    - name: Cache luarocks installation
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-luarocks
-      with:
-        path: .luarocks
-        key: ${{ runner.os }}-luarocks-${{ env.LUAROCKS_VERSION }}
-        restore-keys: |
-          ${{ runner.os }}-luarocks-
 
     - uses: leafo/gh-actions-lua@v8.0.0
       with:
@@ -108,16 +81,23 @@ jobs:
       run: |
         chmod +x .vscode/update_lua_globals.sh
         .vscode/update_lua_globals.sh
+
+    - name: Get file changes
+      id: changes
+      run: |
         changes="$(git status --porcelain=1 ${VENDOR_PATH} ${LUACHECK_CONFIG})"
         echo "::debug::${changes}"
         if [ -z "${changes}" ]; then
           echo "::set-output name=clean::true"
         else
+          files=()
           while IFS= read -r line; do
             file=$(cut -d" " -f3 <<< ${line})
+            files+=("${file}")
             echo "::notice file=${file}::File changed: ${line}"
             echo "::debug::$(git diff ${file})"
           done <<< ${changes}
+          echo "::set-output name=files::${files[@]}"
           echo "::set-output name=clean::false"
         fi
 
@@ -138,12 +118,12 @@ jobs:
           exit 0;
         fi
 
-    - name: Upload .luacheckrc
-      if: steps.lua-globals.outputs.clean == 'false'
+    - name: Upload updated files
+      if: steps.changes.outputs.clean == 'false'
       uses: actions/upload-artifact@v2
       with:
         name: luacheckrc
-        path: .luacheckrc
+        path: ${{ env.LUACHECK_CONFIG }}
 
   create-pr:
     runs-on: ubuntu-latest
@@ -168,7 +148,7 @@ jobs:
     - name: Remove PJ-autocomplete meta files
       run: rm -rf ${{ env.VENDOR_PATH }}/{.git,.github}
 
-    - name: Download .luacheckrc
+    - name: Download updated files
       uses: actions/download-artifact@v2
       with:
         name: luacheckrc
@@ -196,14 +176,22 @@ jobs:
         delete-branch: true
         signoff: false
         title: "[Luacheck] Update config and autocomplete"
+        body: |
+          **Update**:
+            - Total War Lua autocompletion
+            - Luacheck globals list
         labels: |
+          automation
           dep
 
     - name: Show info
       run: |
-        echo "::notice::Pull request number: ${{ steps.pr.outputs.pull-request-number }}"
-        echo "::notice::Pull request URL: ${{ steps.pr.outputs.pull-request-url }}"
-        echo "::notice::Pull request status: ${{ steps.pr.outputs.pull-request-operation }}"
+        echo "::notice::${{ format(
+          'Pull request #{0} is {1}: {2}',
+          steps.pr.outputs.pull-request-number,
+          steps.pr.outputs.pull-request-operation,
+          steps.pr.outputs.pull-request-url
+        ) }}"
 
     - name: Enable Pull Request Automerge
       if: steps.pr.outputs.pull-request-operation == 'created'
