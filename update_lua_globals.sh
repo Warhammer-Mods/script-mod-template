@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 
+LUA_VERSION=${LUA_VERSION:-'51'}
 CONFIG_FILE=${LUACHECK_CONFIG:-'.luacheckrc'}
-LUA_VENDOR_FILES=${VENDOR_PATH:-'.github/autocomplete'}
-SHOW_GLOBALS_SCRIPT=${SHOW_GLOBALS_SCRIPT:-'.github/show_globals.lua'}
+LUA_VENDOR_FILES=${VENDOR_PATH:-'.luarocks/share/lua'}
+
+export PATH=".luarocks/bin:$PATH"
+
+if [[ -z "${LUA_VERSION}" ]]; then
+  LUA_VERSION=51
+else
+  LUA_VERSION=$(echo "${LUA_VERSION}" | tr -dc '0-9')
+fi
+
 
 CUSTOM_VARS=()
 if [[ "${CUSTOM_LUA_GLOBALS}" ]]; then
@@ -45,7 +54,7 @@ lua_globals=$(
   for f in $(
     find ${LUA_VENDOR_FILES} -type f -iname "*.lua"
   ); do 
-    lua ${SHOW_GLOBALS_SCRIPT} W < $f | 
+    lua-globals W ${LUA_VERSION} < $f | 
     awk -F"\t" '{printf "	\"%s\",\n", $2}'
   done
   
