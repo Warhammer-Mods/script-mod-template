@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
+# Paths are relative to project root
+
 CONFIG_FILE=${LUACHECK_CONFIG:-'.luacheckrc'}
-LUA_VENDOR_FILES=${VENDOR_PATH:-'.github/autocomplete'}
-SHOW_GLOBALS_SCRIPT=${SHOW_GLOBALS_SCRIPT:-'.github/show_globals.lua'}
+LUA_VENDOR_FILES=${VENDOR_PATH:-'.luarocks'}
+
+if [[ -z "${LUA_VERSION}" ]]; then
+  LUA_VERSION=51
+else
+  LUA_VERSION=$(echo "${LUA_VERSION}" | tr -dc '0-9')
+fi
+
 
 CUSTOM_VARS=()
 if [[ "${CUSTOM_LUA_GLOBALS}" ]]; then
@@ -43,9 +51,9 @@ eval set -- "$PARAMS"
 # build the list of lua globals exported
 lua_globals=$(
   for f in $(
-    find ${LUA_VENDOR_FILES} -type f -iname "*.lua"
+    find ${LUA_VENDOR_FILES}/share/lua -type f -iname "*.lua"
   ); do 
-    lua ${SHOW_GLOBALS_SCRIPT} W < $f | 
+    lua-globals W ${LUA_VERSION} < $f | 
     awk -F"\t" '{printf "	\"%s\",\n", $2}'
   done
   
