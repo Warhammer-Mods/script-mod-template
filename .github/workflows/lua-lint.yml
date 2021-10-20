@@ -31,7 +31,7 @@ env:
   GIT_AUTHOR_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
   GIT_COMMITTER_NAME: "github-actions[bot]"
   GIT_COMMITTER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
-  VENDOR_PATH: .luarocks/share/lua
+  VENDOR_PATH: .luarocks
   UPDATE_LUA_GLOBALS_SCRIPT: update_lua_globals.sh
   LUACHECK_CONFIG: >-
     .luacheckrc
@@ -66,7 +66,12 @@ jobs:
       run: luarocks install luacheck
 
     - name: Install
-      run: luarocks install --tree ${{ env.VENDOR_PATH }} --only-deps *.rockspec
+      run: |
+        luarocks install --tree ${{ env.VENDOR_PATH }} --only-deps *.rockspec
+        
+        lr_path=$(  luarocks path --tree .luarocks --lr-path ); echo "LUA_PATH=${lr_path/;/:}:${LUA_PATH}"     >> $GITHUB_ENV
+        lr_cpath=$( luarocks path --tree .luarocks --lr-cpath); echo "LUA_CPATH=${lr_cpath/;/:}:${LUA_CPATH}"  >> $GITHUB_ENV
+        lr_bin=$(   luarocks path --tree .luarocks --lr-bin);   echo "${lr_bin/;/:}"                           >> $GITHUB_PATH
 
     - name: Set Lua globals from vendor path
       id: lua-globals
