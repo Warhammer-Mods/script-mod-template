@@ -104,6 +104,7 @@ globals = {
 	"is_table",
 	"is_uicomponent",
 	"load_script_libraries",
+	"luarocks",
 	"out",
 	"output_uicomponent",
 	"print_all_uicomponent_children",
