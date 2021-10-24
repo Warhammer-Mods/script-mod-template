@@ -3,6 +3,7 @@
 # Paths are relative to project root
 
 CONFIG_FILE=${LUACHECK_CONFIG:-'.luacheckrc'}
+LUA_SCRIPT_FILES=${LUA_SCRIPT_FILES:-'script'}
 LUA_VENDOR_FILES=${VENDOR_PATH:-'.luarocks'}
 
 if [[ -z "${LUA_VERSION}" ]]; then
@@ -51,10 +52,13 @@ eval set -- "$PARAMS"
 # build the list of lua globals exported
 lua_globals=$(
   for f in $(
-    find ${LUA_VENDOR_FILES}/share/lua -type f -iname "*.lua"
+    find \
+      ${LUA_VENDOR_FILES}/share/lua \
+      ${LUA_SCRIPT_FILES} \
+      -type f -iname "*.lua" 
   ); do 
-    lua-globals W ${LUA_VERSION} < $f | 
-    awk -F"\t" '{printf "	\"%s\",\n", $2}'
+    lua-globals --mode W --lua-version ${LUA_VERSION} $f | 
+    awk -F"\t" '$1 == "write" && $2 != "" {printf "	\"%s\",\n", $2}'
   done
   
   for v in ${CUSTOM_VARS[@]}; do
