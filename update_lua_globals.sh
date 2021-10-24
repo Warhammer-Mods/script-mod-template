@@ -58,7 +58,7 @@ lua_globals=$(
       -type f -iname "*.lua" 
   ); do 
     lua-globals --mode W --lua-version ${LUA_VERSION} $f | 
-    awk -F"\t" '{printf "	\"%s\",\n", $2}'
+    awk -F"\t" '$1 == "write" && $2 != "" {printf "	\"%s\",\n", $2}'
   done
   
   for v in ${CUSTOM_VARS[@]}; do
