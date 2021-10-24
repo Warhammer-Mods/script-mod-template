@@ -4,6 +4,7 @@ allow_defined = true
 allow_defined_top = true
 
 globals = {
+	"",
 	"ACTIVE_RITUAL_SCRIPT_INTERFACE",
 	"BATTLE_MANAGER",
 	"BATTLE_SIDE",
