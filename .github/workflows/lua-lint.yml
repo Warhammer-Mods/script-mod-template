@@ -36,6 +36,8 @@ env:
   TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Folder where Luarocks will store project dependencies
   VENDOR_PATH: .luarocks
+  # Folder containing mod script files
+  LUA_SCRIPT_FILES: script
   UPDATE_LUA_GLOBALS_SCRIPT: update_lua_globals.sh
   LUACHECK_CONFIG: >-
     .luacheckrc
