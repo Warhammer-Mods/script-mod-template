@@ -26,7 +26,7 @@ on:
 
 jobs:
   db-check:
-    uses: Warhammer-Mods/workflows/.github/workflows/db-check.yml@main
+    uses: Warhammer-Mods/workflows/.github/workflows/db-check.yml@v1
     with:
       paths: db
       pr_enabled: true
