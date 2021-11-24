@@ -7,9 +7,9 @@
 This Total War mod template assumes you've installed and familiarized yourself with [RPFM](https://github.com/Frodo45127/rpfm), and know the basics of [Git](https://guides.github.com/introduction/git-handbook/).
 
 - Use the template to fork this repository. Provided you want to name your mod Packfile `my_awesome_mod.pack`, use `my_awesome_mod`, as a repo name, without the ".pack".
-- Make sure you've [set MyMod folder](https://frodo45127.github.io/rpfm/chapter_2.html) in RPFM.
-- In RPFM, create a new mod using *MyMod* -> *New MyMod* and name it `my_awesome_mod`. [**Save**](https://frodo45127.github.io/rpfm/chapter_3_1_1.html) the Packfile.
-- Clone the repo into your game's *MyMod* folder (say, `Documents/twmodding/warhammer2/`).
+- Make sure you've [set MyMod folder](https://im-mortal.github.io/rpfm/chapter_2.html) in RPFM.
+- In RPFM, create a new mod using *MyMod* -> *New MyMod* and name it `my_awesome_mod`. [**Save**](https://im-mortal.github.io/rpfm/chapter_3_1_1.html) the Packfile.
+- Clone the repo into your game's *MyMod* folder (say, `Documents/twmodding/warhammer_2/`).
 - Use *MyMod* -> *Import* to import this template's mod settings. At first, it may also import all the auxiliary files, so feel free to remove them from RPFM by invoking context menu on your Packfile in the left-hand pane, and clicking *Delete* (see [this page](https://frodo45127.github.io/rpfm/chapter_3_2_0.html) for more info). Subsequent *MyMod Imports* will import only relevant files into your Packfile.
 - Start modding! You can create or import files from game files, parent mods in case you're making a submod, or just drag and drop files into your MyMod folder with your favourite file explorer (use *MyMod* -> *Import* when done). [Here's more](https://frodo45127.github.io/rpfm/chapter_3_1_2.html) about the MyMod feature.
 
