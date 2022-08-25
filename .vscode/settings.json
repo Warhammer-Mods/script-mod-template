@@ -1,0 +1,13 @@
+{
+  "Lua.runtime.version": "Lua 5.1",
+  "Lua.telemetry.enable": false,
+  "editor.detectIndentation": true,
+  "editor.parameterHints.enabled": true,
+  "files.eol": "\n",
+  "markdownlint.config": {
+    "default": true,
+    "MD024": { "siblings_only": true }
+  },
+  "rainbow_csv.comment_prefix": "#",
+  "rainbow_csv.rbql_with_headers_by_default": true
+}
