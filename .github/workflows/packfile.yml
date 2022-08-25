@@ -1,0 +1,64 @@
+name: Build Packfile
+
+on: 
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'hotfix/**'
+      - 'bugfix/**'
+      - 'support/**'
+      - 'update/**'
+  
+  pull_request:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'hotfix/**'
+      - 'bugfix/**'
+      - 'support/**'
+      - 'update/**'
+  
+  workflow_dispatch:
+    inputs:
+      paths:
+        required: false
+        type: string
+        default: |
+          * !.git/** !.vscode/** !**/.* !**/*.rockspec !matchers/*
+        description: |
+          A list of space-delimited glob patterns to include in the packfile.
+      debug_enabled:
+        description: Enable debug logging
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build-packfile-manual:
+    name: Manual packfile build job
+    uses: Warhammer-Mods/workflows/.github/workflows/packfile.yml@main
+    if: github.event_name == 'workflow_dispatch'
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      paths: ${{ inputs.paths }}
+      paths_separator: " "
+      game: warhammer_3
+      debug_enabled: ${{ inputs.debug_enabled }}
+  build-packfile:
+    name: Build packfile
+    uses: Warhammer-Mods/workflows/.github/workflows/packfile.yml@main
+    if: github.event_name != 'workflow_dispatch'
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      paths: |
+        *
+        !.git/**
+        !.vscode/**
+        !**/.*
+        !**/*.rockspec
+      game: warhammer_3
