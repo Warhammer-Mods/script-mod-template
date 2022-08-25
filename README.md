@@ -12,6 +12,7 @@ This Total War mod template assumes you've installed and familiarized yourself w
 - Clone the repo into your game's *MyMod* folder (say, `Documents/twmodding/warhammer_2/`).
 - Use *MyMod* -> *Import* to import this template's mod settings. At first, it may also import all the auxiliary files, so feel free to remove them from RPFM by invoking context menu on your Packfile in the left-hand pane, and clicking *Delete* (see [this page](https://frodo45127.github.io/rpfm/chapter_3_2_0.html) for more info). Subsequent *MyMod Imports* will import only relevant files into your Packfile.
 - Start modding! You can create or import files from game files, parent mods in case you're making a submod, or just drag and drop files into your MyMod folder with your favourite file explorer (use *MyMod* -> *Import* when done). [Here's more](https://frodo45127.github.io/rpfm/chapter_3_1_2.html) about the MyMod feature.
+- Visual Studio Code is the recommended text editor. This template heavily relies on its extensions, such as [Lua Language Server](https://github.com/sumneko/lua-language-server) for detecting errors in your script mods, showing definitions, and even contextual suggestions.
 
 ### GitHub Workflow
 
@@ -25,7 +26,7 @@ This template also includes some additional GitHub Workflows that make it easier
 
 ### Adapting to your needs
 
-As with any git repo, you're encouraged to make any changes to your liking if you know what you're doing. Also, as this is stil a work in progress, you may be interested to periodically pull updates from this repo every once in a while. Finally, if you think anything could've been done or worded better, please propore your changes.
+As with any git repo, you're encouraged to make any changes to your liking if you know what you're doing. Also, as this is stil a work in progress, you may be interested to periodically pull updates from this repo every once in a while. Finally, if you think anything could've been done or worded better, please leave feedback.
 
 Finally, when editing this readme file, feel free to remove this quickstart section.
 
